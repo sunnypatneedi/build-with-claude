@@ -33,7 +33,7 @@ python3 scripts/push.py --port /dev/cu.usbmodem1101 --files apps/snake.py
 python3 scripts/tail_serial.py --port /dev/cu.usbmodem1101
 
 # One-shot REPL exec
-python3 scripts/repl_run.py --port /dev/cu.usbmodem1101 --cmd "import os; print(os.listdir('/flash'))"
+python3 scripts/repl_run.py --port /dev/cu.usbmodem1101 --script "import os; print(os.listdir('/flash'))"
 ```
 
 `gen_burst_frames.py` regenerates `burst_frames.py` from source sprites.

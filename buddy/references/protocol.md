@@ -1,7 +1,9 @@
 # Claude Buddy BLE protocol — reference
 
-Distilled from <https://github.com/anthropics/claude-desktop-buddy/blob/main/REFERENCE.md>.
-Keep this file current if upstream changes; `buddy_protocol.py` relies on it.
+This file documents the wire format the device implements. The
+upstream specification lives with the Claude Desktop Buddy
+implementation in Claude.app's Developer menu; if the host side
+changes, mirror the change here and in `buddy_protocol.py`.
 
 ## Transport
 

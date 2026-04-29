@@ -4,7 +4,11 @@ Flash a Cardputer-Adv and install the Claude Buddy apps in one command.
 
 ## Quick start
 
-1. Download this repo locally
+1. Clone this repo to `~/Downloads/m5stack/` — the path the skill defaults to:
+   ```bash
+   git clone <repo-url> ~/Downloads/m5stack
+   ```
+   (If you want it elsewhere, see "Custom clone location" below.)
 2. Plug the Cardputer into your laptop via USB-C
 3. Open Claude Code and start a new chat
 4. Point Claude Code to the repo folder
@@ -52,15 +56,25 @@ Crib from `buddy/device/apps/hello_cardputer.py` — it's the smallest example o
 
 ## Getting back to stock UIFlow
 
+The buddy bundle takes over the boot flow via `/flash/main.py`. Remove
+that file and UIFlow's stock launcher boots normally on the next reset.
 From the device REPL:
 
 ```python
 import os
-os.rename('/flash/boot_uiflow.py', '/flash/boot.py')
+os.remove('/flash/main.py')
 import machine; machine.reset()
 ```
 
-Or re-run `m5-onboard go` with `--no-apps` to reflash stock UIFlow from scratch.
+To also drop the apps under `/flash/apps/`, walk that directory the
+same way and remove what you don't want.
+
+If you want a fresh UIFlow firmware on top, re-run `m5-onboard go`
+*without* `--apps`: the skill flashes UIFlow and stops, leaving the
+filesystem alone. The previous `boot_uiflow.py`-rename procedure here
+referred to a backup that `install_apps.py` only creates when the
+bundle ships its own root `boot.py`; the buddy bundle doesn't, so
+that backup never exists for these users.
 
 ---
 
