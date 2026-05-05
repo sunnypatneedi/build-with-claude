@@ -216,6 +216,7 @@ def _discover_apps():
 # doesn't touch the animation's bounding box.
 _MENU_X = 10
 _MENU_RIGHT = 150         # menu highlight ends here; animation starts beyond
+_MAX_VISIBLE = 5          # rows shown at once; drives scroll viewport
 _BURST_W = 72
 _BURST_H = 72
 _BURST_X = 160            # top-left x of burst bounding box
@@ -250,7 +251,7 @@ def _draw_burst_frame(frame_idx):
         i += 3
 
 
-def _draw_chrome(apps, cursor):
+def _draw_chrome(apps, cursor, scroll_top=0):
     """Full repaint of chrome + menu (NOT the burst animation — that
     ticks on its own cadence in the main loop). Fast enough to just
     redraw on cursor move; at 240x135 the whole buffer is small and
@@ -271,23 +272,32 @@ def _draw_chrome(apps, cursor):
     _LCD.drawString(pip_text, _W - _LCD.textWidth(pip_text) - 6, 5)
 
     # Menu rows constrained to the left region so the burst animation
-    # has clean space on the right. Up to 6 visible; more than that
-    # we'd need scroll handling, but the current bundle ships 3 apps
-    # so 6 is plenty of runway.
+    # has clean space on the right. Only _MAX_VISIBLE rows are shown at
+    # once; scroll_top is the index of the first visible app.
     y = 28
     row_h = 16
     hi_x = 4
     hi_w = _MENU_RIGHT - hi_x        # highlight width, ends before burst
-    for i, (display, _mod) in enumerate(apps):
-        if i == cursor:
+    visible = apps[scroll_top:scroll_top + _MAX_VISIBLE]
+    for i, (display, _mod) in enumerate(visible):
+        abs_i = scroll_top + i
+        if abs_i == cursor:
             _LCD.fillRect(hi_x, y - 2, hi_w, row_h - 2, _ORANGE)
             _LCD.setTextColor(_BLACK, _ORANGE)
         else:
             _LCD.setTextColor(_CREAM, _BLACK)
         _LCD.drawString(display, _MENU_X, y)
         y += row_h
-        if y > _H - 22:
-            break
+
+    # Scroll indicators: orange ^ / v at the right edge of the first /
+    # last visible row when there are more items beyond the viewport.
+    ind_x = _MENU_RIGHT - 10
+    if scroll_top > 0:
+        _LCD.setTextColor(_ORANGE, _BLACK)
+        _LCD.drawString("^", ind_x, 28)
+    if scroll_top + _MAX_VISIBLE < len(apps):
+        _LCD.setTextColor(_ORANGE, _BLACK)
+        _LCD.drawString("v", ind_x, 28 + (len(visible) - 1) * row_h)
 
     # Hint strip.
     _LCD.fillRect(0, _H - 18, _W, 18, _DARK)
@@ -403,7 +413,8 @@ def main():
             time.sleep_ms(500)
 
     cursor = 0
-    _draw_chrome(apps, cursor)
+    scroll_top = 0
+    _draw_chrome(apps, cursor, scroll_top)
 
     # IMPORTANT: give the hardware time to settle before constructing
     # the MatrixKeyboard. On a fresh cold-boot from UIFlow's boot.py
@@ -439,17 +450,27 @@ def main():
         intent = _intent(kb.get_key())
         if intent == "up":
             cursor = (cursor - 1) % len(apps)
-            _draw_chrome(apps, cursor)
+            if cursor < scroll_top:
+                scroll_top = cursor
+            elif cursor >= scroll_top + _MAX_VISIBLE:
+                # Wrapped from first item to last — show the tail end.
+                scroll_top = max(0, len(apps) - _MAX_VISIBLE)
+            _draw_chrome(apps, cursor, scroll_top)
         elif intent == "down":
             cursor = (cursor + 1) % len(apps)
-            _draw_chrome(apps, cursor)
+            if cursor >= scroll_top + _MAX_VISIBLE:
+                scroll_top = cursor - _MAX_VISIBLE + 1
+            elif cursor < scroll_top:
+                # Wrapped from last item to first — show the top.
+                scroll_top = 0
+            _draw_chrome(apps, cursor, scroll_top)
         elif intent == "launch":
             _, mod_name = apps[cursor]
             _launch(mod_name)
             # If _launch returns (error path), redraw menu. Reset the
             # burst phase so the animation restarts from frame 0 for
             # visual consistency with a fresh launcher entry.
-            _draw_chrome(apps, cursor)
+            _draw_chrome(apps, cursor, scroll_top)
             frame = 0
             last_frame_ms = time.ticks_ms()
             # Debounce so the user's release of Enter doesn't re-fire.
