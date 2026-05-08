@@ -1,9 +1,6 @@
 {
-  "name": "Claudachi for Cardputer-Adv",
+  "name": "Claudachi",
   "version": "0.1.0",
-  "home_assistant_domain": "claudachi",
-  "funding_url": "https://github.com/sunnypatneedi/build-with-claude",
-  "new_install_prompt_erase": true,
   "builds": [
     {
       "chipFamily": "ESP32-S3",
