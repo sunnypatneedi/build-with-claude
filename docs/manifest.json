@@ -1,0 +1,15 @@
+{
+  "name": "Claudachi for Cardputer-Adv",
+  "version": "0.1.0",
+  "home_assistant_domain": "claudachi",
+  "funding_url": "https://github.com/sunnypatneedi/build-with-claude",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32-S3",
+      "parts": [
+        { "path": "firmware/uiflow2-cardputer-adv.bin", "offset": 0 }
+      ]
+    }
+  ]
+}

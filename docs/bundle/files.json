@@ -1,0 +1,17 @@
+{
+  "comment": "Upload plan mirroring m5-onboard/scripts/install_apps.py:_plan_uploads(). Root .py files load before apps/ that import them, so order matters.",
+  "files": [
+    { "src": "buddy_ble.py",      "dest": "/flash/buddy_ble.py" },
+    { "src": "buddy_chars.py",    "dest": "/flash/buddy_chars.py" },
+    { "src": "buddy_protocol.py", "dest": "/flash/buddy_protocol.py" },
+    { "src": "buddy_state.py",    "dest": "/flash/buddy_state.py" },
+    { "src": "buddy_ui_cp.py",    "dest": "/flash/buddy_ui_cp.py" },
+    { "src": "burst_frames.py",   "dest": "/flash/burst_frames.py" },
+    { "src": "main.py",           "dest": "/flash/main.py" },
+    { "src": "wifi_event.py",     "dest": "/flash/wifi_event.py" },
+    { "src": "apps/claudachi.py",       "dest": "/flash/apps/claudachi.py" },
+    { "src": "apps/claude_buddy.py",    "dest": "/flash/apps/claude_buddy.py" },
+    { "src": "apps/hello_cardputer.py", "dest": "/flash/apps/hello_cardputer.py" },
+    { "src": "apps/snake.py",           "dest": "/flash/apps/snake.py" }
+  ]
+}

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claudachi · Install on Cardputer-Adv</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- ESP Web Tools handles the firmware-flash phase. After it
+       finishes, we hand off to flasher.js which uses WebSerial
+       directly to push the buddy bundle (paste-mode REPL). -->
+  <script type="module" src="https://unpkg.com/esp-web-tools@10.0.0/dist/web/install-button.js?module"></script>
+  <script defer src="flasher.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Claudachi</h1>
+    <p class="tagline">A kid-safe virtual pet for the Cardputer-Adv. Install in two clicks.</p>
+  </header>
+
+  <main>
+    <section class="step" id="step-1">
+      <div class="step-no">1</div>
+      <div class="step-body">
+        <h2>Install firmware</h2>
+        <p>Plug the Cardputer-Adv into your computer with a USB-C <strong>data</strong> cable. If nothing happens when you click, <strong>try flipping the cable 180°</strong> — Cardputer-Adv only enumerates one orientation.</p>
+        <esp-web-install-button manifest="manifest.json">
+          <button slot="activate" class="primary">Install firmware</button>
+          <span slot="unsupported">Your browser doesn't support WebSerial. Use Chrome, Edge, or Brave on a desktop.</span>
+          <span slot="not-allowed">WebSerial is only available over HTTPS.</span>
+        </esp-web-install-button>
+        <details class="hint">
+          <summary>What does this do?</summary>
+          <p>Writes M5Stack's UIFlow 2.0 firmware (~8 MB) to the device. When prompted, you'll need to do the <strong>button dance</strong> on the back of the device:</p>
+          <ol class="dance">
+            <li>Hold <kbd>G0</kbd></li>
+            <li>Tap <kbd>RST</kbd> (still holding <kbd>G0</kbd>)</li>
+            <li>Release <kbd>RST</kbd></li>
+            <li>Release <kbd>G0</kbd> after ~1 sec — screen goes dark</li>
+          </ol>
+          <p>The buttons are flush-mounted on the back of the device; a fingernail helps.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="step" id="step-2">
+      <div class="step-no">2</div>
+      <div class="step-body">
+        <h2>Install apps</h2>
+        <p>Once the firmware finishes and the device reboots, click below to push the Claudachi app (and the rest of the buddy bundle) onto the device. The browser will ask you to pick the serial port again.</p>
+        <button id="install-apps" class="primary">Install apps</button>
+        <div id="apps-status" class="status" hidden>
+          <div class="status-line" id="apps-status-line">Waiting…</div>
+          <progress id="apps-progress" value="0" max="100"></progress>
+        </div>
+        <details class="hint">
+          <summary>What does this do?</summary>
+          <p>Sends ~150 KB of MicroPython files into <code>/flash/</code> on the device via the REPL: the Claudachi pet, the Snake game, the Hello demo, the Claude Buddy BLE client, plus their shared modules. Nothing leaves your machine.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="step" id="step-3">
+      <div class="step-no">3</div>
+      <div class="step-body">
+        <h2>Try Claudachi</h2>
+        <p>Power-cycle the device with the side switch. The launcher menu shows up — pick <strong>claudachi</strong> and meet your new friend. Keys: <kbd>F</kbd> feed · <kbd>P</kbd> play · <kbd>Z</kbd> nap · <kbd>T</kbd> talk · <kbd>Q</kbd> back.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Source: <a href="https://github.com/sunnypatneedi/build-with-claude">github.com/sunnypatneedi/build-with-claude</a> · Runs entirely in your browser; nothing is uploaded.</p>
+  </footer>
+</body>
+</html>

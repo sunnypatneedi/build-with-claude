@@ -1,0 +1,220 @@
+/* Claudachi installer — Anthropic palette, kid-friendly without
+   being childish. Optimized for desktop Chrome/Edge since WebSerial
+   is desktop-only. */
+
+:root {
+  --orange: #cc785c;
+  --orange-dim: #b86a4d;
+  --cream: #f0eee6;
+  --dark: #1f1f1f;
+  --gray: #777;
+  --gray-bg: #2a2a2a;
+  --bar-ok: #9ccc9a;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--dark);
+  color: var(--cream);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+header {
+  text-align: center;
+  padding: 56px 24px 24px;
+  border-bottom: 1px solid var(--gray-bg);
+}
+
+header h1 {
+  font-size: 56px;
+  margin: 0 0 8px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--orange);
+}
+
+header .tagline {
+  margin: 0;
+  color: var(--gray);
+  font-size: 18px;
+}
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+.step {
+  display: flex;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--gray-bg);
+}
+
+.step:last-of-type { border-bottom: none; }
+
+.step-no {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--orange);
+  color: var(--dark);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.step-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.step-body h2 {
+  margin: 0 0 8px;
+  font-size: 24px;
+  letter-spacing: -0.01em;
+}
+
+.step-body p {
+  margin: 0 0 16px;
+  color: var(--cream);
+}
+
+button.primary,
+esp-web-install-button button[slot="activate"] {
+  background: var(--orange);
+  color: var(--dark);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 22px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+button.primary:hover,
+esp-web-install-button button[slot="activate"]:hover {
+  background: var(--orange-dim);
+}
+
+button.primary:disabled {
+  background: var(--gray-bg);
+  color: var(--gray);
+  cursor: not-allowed;
+}
+
+esp-web-install-button [slot="unsupported"],
+esp-web-install-button [slot="not-allowed"] {
+  display: block;
+  margin-top: 12px;
+  color: #e8b05c;
+  font-size: 14px;
+}
+
+details.hint {
+  margin-top: 18px;
+  background: var(--gray-bg);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
+}
+
+details.hint summary {
+  cursor: pointer;
+  color: var(--gray);
+  font-weight: 500;
+  user-select: none;
+}
+
+details.hint summary:hover { color: var(--cream); }
+
+details.hint[open] summary { color: var(--cream); margin-bottom: 10px; }
+
+details.hint p { margin: 8px 0; color: var(--cream); }
+
+ol.dance {
+  padding-left: 22px;
+  margin: 12px 0;
+}
+
+ol.dance li {
+  margin: 6px 0;
+}
+
+kbd {
+  background: var(--dark);
+  border: 1px solid var(--orange);
+  color: var(--orange);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: ui-monospace, "SF Mono", monospace;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+code {
+  background: var(--gray-bg);
+  color: var(--orange);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: ui-monospace, "SF Mono", monospace;
+  font-size: 13px;
+}
+
+.status {
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: var(--gray-bg);
+  border-radius: 8px;
+  border-left: 3px solid var(--orange);
+}
+
+.status-line {
+  font-family: ui-monospace, "SF Mono", monospace;
+  font-size: 13px;
+  color: var(--cream);
+  margin-bottom: 8px;
+  word-break: break-all;
+}
+
+progress {
+  width: 100%;
+  height: 8px;
+  appearance: none;
+  border: none;
+  border-radius: 4px;
+  background: var(--dark);
+  overflow: hidden;
+}
+
+progress::-webkit-progress-bar { background: var(--dark); border-radius: 4px; }
+progress::-webkit-progress-value { background: var(--bar-ok); border-radius: 4px; transition: width 0.2s ease; }
+progress::-moz-progress-bar { background: var(--bar-ok); }
+
+footer {
+  text-align: center;
+  padding: 24px;
+  color: var(--gray);
+  font-size: 13px;
+  border-top: 1px solid var(--gray-bg);
+}
+
+footer a { color: var(--orange); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+@media (max-width: 560px) {
+  header h1 { font-size: 40px; }
+  header .tagline { font-size: 16px; }
+  .step-no { width: 28px; height: 28px; font-size: 14px; }
+  .step-body h2 { font-size: 20px; }
+}
