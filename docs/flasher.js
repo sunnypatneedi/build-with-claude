@@ -284,7 +284,16 @@
       await softReboot(repl);
 
       setStatus("Done! Power-cycle and pick claudachi from the menu.", 100);
-      btn.textContent = "Installed";
+      btn.textContent = "✓ Installed";
+
+      // Tell progress.js to mark step 4 complete and scroll to step 5.
+      // Decoupled via a custom event so flasher.js doesn't need to
+      // know anything about the step UI.
+      document.dispatchEvent(
+        new CustomEvent("claudachi:step-complete", {
+          detail: { step: "step-4", nextId: "step-5" },
+        })
+      );
     } catch (e) {
       console.error(e);
       setStatus("Error: " + (e.message || e));

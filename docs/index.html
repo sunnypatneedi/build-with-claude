@@ -10,6 +10,7 @@
        takes over after for the post-flash apps push over WebSerial. -->
   <script type="module" src="https://unpkg.com/esp-web-tools@10.2.1/dist/web/install-button.js?module"></script>
   <script defer src="flasher.js"></script>
+  <script defer src="progress.js"></script>
 </head>
 <body>
 
@@ -60,10 +61,20 @@
     <a href="#step-1" class="cta">Get started ↓</a>
   </section>
 
+  <!-- ===== Progress bar ===== -->
+  <div class="progress-bar" id="progress-bar">
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+    <div class="progress-label">
+      <span id="progress-count">0</span> of 5 done
+    </div>
+  </div>
+
   <!-- ===== Steps ===== -->
   <main>
 
-    <section class="step" id="step-1">
+    <section class="step" id="step-1" data-step="step-1">
       <div class="step-icon">🛒</div>
       <div class="step-content">
         <span class="step-tag">Step 1</span>
@@ -83,10 +94,14 @@
             <span class="store-meta">UK · authorized distributor</span>
           </a>
         </div>
+        <button class="next-btn" data-next="step-2" data-step="step-1">
+          <span class="next-label">I've got one</span>
+          <span class="next-icon">→</span>
+        </button>
       </div>
     </section>
 
-    <section class="step" id="step-2">
+    <section class="step" id="step-2" data-step="step-2">
       <div class="step-icon">🔌</div>
       <div class="step-content">
         <span class="step-tag">Step 2</span>
@@ -97,10 +112,14 @@
           <span class="cable-line"></span>
           <span class="cable-end">📱</span>
         </div>
+        <button class="next-btn" data-next="step-3" data-step="step-2">
+          <span class="next-label">It's plugged in</span>
+          <span class="next-icon">→</span>
+        </button>
       </div>
     </section>
 
-    <section class="step" id="step-3">
+    <section class="step" id="step-3" data-step="step-3">
       <div class="step-icon">⚡</div>
       <div class="step-content">
         <span class="step-tag">Step 3</span>
@@ -126,7 +145,7 @@
       </div>
     </section>
 
-    <section class="step" id="step-4">
+    <section class="step" id="step-4" data-step="step-4">
       <div class="step-icon">📦</div>
       <div class="step-content">
         <span class="step-tag">Step 4</span>
@@ -144,7 +163,7 @@
       </div>
     </section>
 
-    <section class="step" id="step-5">
+    <section class="step" id="step-5" data-step="step-5">
       <div class="step-icon">🎉</div>
       <div class="step-content">
         <span class="step-tag">Step 5</span>
@@ -158,6 +177,9 @@
           <div class="key-card"><kbd class="big">Q</kbd><span>back</span></div>
         </div>
         <p class="hint-note">Each action plays a little chirp tune. Claudachi never dies, never asks personal questions, and runs entirely on the device — nothing online, nothing cloud-based, no parent worry.</p>
+        <button class="next-btn celebrate-btn" data-step="step-5" data-celebrate="true">
+          <span class="next-label">Done! 🎊</span>
+        </button>
       </div>
     </section>
 
